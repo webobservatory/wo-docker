@@ -1,0 +1,24 @@
+version: '2'
+services:
+  wo:
+    build: .
+    volumes:
+     - ./log/wo:/var/log/wo
+    ports:
+     - "4000:4000"
+    container_name: wo
+    depends_on:
+     - mongo
+  mongo:
+    image: mongo
+  nginx:
+    image: nginx    
+    volumes:
+     - ./log/nginx:/var/log/nginx
+     - ./nginx/conf.d:/etc/nginx/conf.d
+     - ./nginx/ssl:/etc/nginx/ssl
+    ports:
+     - "80:80"
+     - "443:443"
+    depends_on:
+     - wo 
